@@ -28,9 +28,6 @@ class Form{
     submitFor() {
         cy.get(elem.submit).click()
     }
-
-
-
 }
 
 export default new Form()
