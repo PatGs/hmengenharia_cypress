@@ -1,27 +1,19 @@
-import Form from '../../support/pageObjects/form-pageObjects'
 import { faker } from '@faker-js/faker/locale/pt_BR';
 
-  describe('Testar todos os formulários de todos os empreendimentos.', () => {
+  describe('Testar a página do empreendimento HM Intense Campos Elíseos', () => {
     const usuario = {
       nome: faker.person.fullName(),
       email: faker.internet.email(),
       whatsapp: faker.phone.number(),
     }
 
-    it('Validar o formulário do HM Campos Eliseos', () => {
+    it('Deve realizar o envio do Formulário corretamente.', () => {
       cy.visit('/imoveis/hm-campos-eliseos')
       cy.viewport(1200, 990);
-
-      Form.avisoCookies();
-      Form.validartxtForm();
-      cy.get('input[id="nome"]').type(faker.person.fullName());
-      cy.get('input[id="email"]').type(faker.internet.email());
-      cy.get('input[id="whatsapp"]').type(faker.phone.number());
-      Form.submitFor();
-
-      cy.get('.text-title-3', {timeout: 10000})
-        .should('contain.text', 'Mensagem enviada Com sucesso! ');
-      cy.location('pathname').should('eq', '/envio-sucesso'); // Verifica o caminho da URL de Mensagem com sucesso.
+      // Preenche e envia o formulário usando o comando customizado `formInput`
+      cy.formInput(usuario.nome, usuario.email, usuario.whatsapp);
+      // Verifica o caminho da URL de Mensagem com sucesso.
+      cy.location('pathname').should('eq', '/envio-sucesso'); 
     
       // Requisição para verificar o envio do formulário
       cy.request({
@@ -45,52 +37,41 @@ import { faker } from '@faker-js/faker/locale/pt_BR';
       });
     });
 
-    context('Interceptando solicitações de rede', ()=>{
+    // Contexto para interceptar solicitações de rede durante o teste
+  context('Interceptando solicitações de rede', () => {
+    // Teste para verificar a interceptação de uma solicitação POST ao enviar o formulário
+      it('Deve fazer a interceptação do POST ao realizar o input do Formulário', () => {
+        // Acessa a página específica onde o formulário está localizado
+        cy.visit('/imoveis/hm-campos-eliseos');
+        
+        // Define a dimensão da viewport para uma experiência de visualização específica (desktop)
+        cy.viewport(1200, 990);
 
-      it.only('Deve fazer a interceptação do POST ao realizar o input do Formulário', () => {
-        // cy.visit('/imoveis/hm-campos-eliseos');
-        // //Form.avisoCookies();
+        // Intercepta a solicitação POST que será enviada ao backend ao submeter o formulário
+        // Dá um alias para a solicitação interceptada para facilitar o rastreamento
         cy.intercept('POST', '/api/forms/lead').as('formRequest');
-        cy.form(usuario.nome, usuario.email, usuario.whatsapp);
-        cy.wait('@formRequest').then((interception) =>{
-          interception.response = {
-            statusCode: 200,
-            body: {
-              sucess: true,
-              message: 'Mensagem enviada Com sucesso!',
-            }
-          }
+
+        // Preenche e envia o formulário usando o comando customizado `formInput`
+        cy.formInput(usuario.nome, usuario.email, usuario.whatsapp);
+
+        // Aguarda a solicitação interceptada e modifica a resposta simulada
+        cy.wait('@formRequest').then((interception) => {
+            // Define a resposta simulada para a interceptação com código de sucesso e uma mensagem de resposta
+            interception.response = {
+                statusCode: 200, // Código de sucesso
+                body: {
+                    success: true, // Confirmação do sucesso
+                    message: 'Mensagem enviada Com sucesso!', // Mensagem de resposta de sucesso
+                }
+            };
         });
 
+        // Recarrega a página para verificar se o conteúdo esperado aparece após a submissão
         cy.visit('/imoveis/hm-campos-eliseos');
+
+        // Verifica se o título da página contém o texto específico, confirmando o carregamento correto
         cy.get('h1')
           .should('contain.text', 'VIVA DO SEU JEITO NO HM CAMPOS ELÍSEOS');
-      });
-    })  
-  })
-  
-
-
-
-
-
-
-
-
-
-  // Validação antiga
-  //describe('Validar os formulários da página dos empreendimentos', () => {
-//     beforeEach(()=>{
-//         cy.visit('/imoveis/hm-campos-eliseos')
-//       })
-
-//     it('Validar o formulário do HM Intense Campos Elíseos', () => {
-//         Form.avisoCookies();
-//         Form.validartxtForm();
-//         Form.inputName();
-//         Form.inputEmail();
-//         Form.inputWhatsApp();
-//         Form.submitFor();
-
-//     });   
-//   })
+    });
+  });
+});

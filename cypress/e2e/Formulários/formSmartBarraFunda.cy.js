@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR';
 
-describe('Testar a página do empreendimento HM Intense Campinas', () => {
+describe('Testar a página do empreendimento HM Smart Barra Funda', () => {
     const usuario = {
         nome: faker.person.fullName(),
         email: faker.internet.email(),
@@ -8,7 +8,7 @@ describe('Testar a página do empreendimento HM Intense Campinas', () => {
       }
 
       it('Deve realizar o envio do Formulário corretamente.', () => {
-        cy.visit('/imoveis/hm-intense-campinas');
+        cy.visit('/imoveis/hm-smart-barra-funda');
         cy.viewport(1200, 990);
 
         cy.formInput(usuario.nome, usuario.email, usuario.whatsapp);
@@ -55,11 +55,11 @@ context('Interceptando solicitações de rede', () => {
         });
 
         // Recarrega a página para verificar se o conteúdo esperado aparece após a submissão
-        cy.visit('/imoveis/hm-intense-campinas');
+        cy.visit('/imoveis/hm-smart-barra-funda');
 
         // Verifica se o título da página contém o texto específico, confirmando o carregamento correto
         cy.get('h1')
-          .should('contain.text', 'VIVA DO SEU JEITO NO HM INTENSE CAMPINAS');
+          .should('contain.text', 'Vá pra casa andando da Estação Barra funda ao seu novo lar. 2 dorms e lazer completo.');
     });
 });
 

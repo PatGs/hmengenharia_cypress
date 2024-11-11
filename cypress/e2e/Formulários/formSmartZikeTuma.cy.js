@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR';
 
-describe('Testar a página do empreendimento HM Intense Campinas', () => {
+describe('Testar a página do empreendimento HM Smart Zike Tuma', () => {
     const usuario = {
         nome: faker.person.fullName(),
         email: faker.internet.email(),
@@ -8,7 +8,7 @@ describe('Testar a página do empreendimento HM Intense Campinas', () => {
       }
 
       it('Deve realizar o envio do Formulário corretamente.', () => {
-        cy.visit('/imoveis/hm-intense-campinas');
+        cy.visit('/imoveis/hm-smart-zike-tuma');
         cy.viewport(1200, 990);
 
         cy.formInput(usuario.nome, usuario.email, usuario.whatsapp);
@@ -30,7 +30,7 @@ context('Interceptando solicitações de rede', () => {
     // Teste para verificar a interceptação de uma solicitação POST ao enviar o formulário
     it('Deve fazer a interceptação do POST ao realizar o input do Formulário', () => {
         // Acessa a página específica onde o formulário está localizado
-        cy.visit('/imoveis/hm-intense-campinas');
+        cy.visit('/imoveis/hm-smart-zike-tuma');
         
         // Define a dimensão da viewport para uma experiência de visualização específica (desktop)
         cy.viewport(1200, 990);
@@ -55,11 +55,11 @@ context('Interceptando solicitações de rede', () => {
         });
 
         // Recarrega a página para verificar se o conteúdo esperado aparece após a submissão
-        cy.visit('/imoveis/hm-intense-campinas');
+        cy.visit('/imoveis/hm-smart-zike-tuma');
 
         // Verifica se o título da página contém o texto específico, confirmando o carregamento correto
         cy.get('h1')
-          .should('contain.text', 'VIVA DO SEU JEITO NO HM INTENSE CAMPINAS');
+          .should('contain.text', 'More na Zona Sul em um apto de 2 dorms. Perto de tudo que você precisa!');
     });
 });
 
