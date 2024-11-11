@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR';
 
-describe('Testar a página do empreendimento HM Vanguard Fit', () => {
+describe('Testar a página do empreendimento HM Smart Guarujá', () => {
     const usuario = {
         nome: faker.person.fullName(),
         email: faker.internet.email(),
@@ -8,7 +8,7 @@ describe('Testar a página do empreendimento HM Vanguard Fit', () => {
       }
 
       it('Deve realizar o envio do Formulário corretamente.', () => {
-        cy.visit('/imoveis/hm-vanguard-fit');
+        cy.visit('/imoveis/hm-smart-guaruja');
         cy.viewport(1200, 990);
 
         cy.formInput(usuario.nome, usuario.email, usuario.whatsapp);
@@ -30,7 +30,7 @@ context('Interceptando solicitações de rede', () => {
     // Teste para verificar a interceptação de uma solicitação POST ao enviar o formulário
     it('Deve fazer a interceptação do POST ao realizar o input do Formulário', () => {
         // Acessa a página específica onde o formulário está localizado
-        cy.visit('/imoveis/hm-vanguard-fit');
+        cy.visit('/imoveis/hm-smart-guaruja');
         
         // Define a dimensão da viewport para uma experiência de visualização específica (desktop)
         cy.viewport(1200, 990);
@@ -55,11 +55,12 @@ context('Interceptando solicitações de rede', () => {
         });
 
         // Recarrega a página para verificar se o conteúdo esperado aparece após a submissão
-        cy.visit('/imoveis/hm-vanguard-fit');
+        cy.visit('/imoveis/hm-smart-guaruja');
 
         // Verifica se o título da página contém o texto específico, confirmando o carregamento correto
         cy.get('h1')
-          .should('contain.text', 'Sua vida completa e rodeada de conveniências em HM Vanguard Fit.');
+          .should('contain.text', 'Viva o jeito inteligente de morar no HM Smart Guarujá');
     });
 });
+
 })

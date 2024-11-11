@@ -62,5 +62,4 @@ context('Interceptando solicitações de rede', () => {
           .should('contain.text', 'Conquiste seu 1° apê com o HM Smart Bem Morar Ouro Verde.');
     });
 });
-
 })
